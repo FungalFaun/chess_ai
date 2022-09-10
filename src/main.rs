@@ -1,6 +1,7 @@
 use macroquad::prelude::*;
 use macroquad::window::Conf;
 use objects::tile::*;
+use objects::piece::*;
 
 
 mod objects;
@@ -39,13 +40,17 @@ async fn init_board(tiles: &mut Vec<Tile>){
 async fn main() {
     let mut tiles = Vec::new();
     init_board(&mut tiles).await;
-    
+
+    let piece = Piece::new(vec2(0f32, 0f32), PieceType::Queen, PieceColor::White);
+
     loop {
         clear_background(WHITE);
 
         for tile in tiles.iter() {
             tile.draw();
         }
+
+        piece.draw();
 
         next_frame().await
     }

@@ -20,23 +20,6 @@ fn window_conf() -> Conf {
     }
 }
 
-async fn init_board(tiles: &mut Vec<Tile>){
-    for i in 0..32 {
-        let j = i as f32;
-
-        let mut x = ((j * 2f32) % 8f32) * TILE_SIZE;
-        let y = i / 4;
-
-        if y % 2 == 0 {
-            x += TILE_SIZE;
-        }
-
-        tiles.push(
-            Tile::new(vec2( x, y as f32 * TILE_SIZE), 
-            vec2(TILE_SIZE, TILE_SIZE), BLACK)
-        );
-}}
-
 #[macroquad::main(window_conf)]
 async fn main() {
     let mut tiles = Vec::new();
@@ -44,7 +27,7 @@ async fn main() {
 
     parse_fen(STARTING_POSITION);
 
-    let piece = Piece::new(vec2(0f32, 0f32), PieceType::Queen, PieceColor::White);
+    let piece = Piece::new(vec2(0f32, 0f32), PieceType::Queen, PieceColor::White, TILE_SIZE);
 
     loop {
         clear_background(WHITE);

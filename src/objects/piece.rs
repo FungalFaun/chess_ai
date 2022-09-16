@@ -21,18 +21,22 @@ pub enum PieceColor {
 
 pub struct Piece {
   pub image: Image,
+  pub size: f32,
   pub pos: Vec2,
   pub piece: PieceType,
   pub color: PieceColor
 }
 
 impl Piece {
-  pub fn new(pos: Vec2, piece_type: PieceType, color: PieceColor) -> Self {
-    
+  pub fn new(pos: Vec2, piece_type: PieceType, color: PieceColor, size: f32) -> Self {
+
+    let image = Piece::get_image(
+      piece_type as isize as f32, 
+      color as isize as f32);
+  
     Self { 
-      image: Piece::get_image(
-        piece_type as isize as f32, 
-        color as isize as f32), 
+      image, 
+      size,
       pos: vec2(pos.x, pos.y), 
       piece: piece_type, color }
   }
@@ -58,6 +62,14 @@ impl Piece {
   }
 
   pub fn draw(&self) {
-    draw_texture(Texture2D::from_image(&self.image), self.pos.x, self.pos.y, WHITE);
+    draw_texture_ex(Texture2D::from_image(&self.image), self.pos.x, self.pos.y, WHITE, 
+    DrawTextureParams {
+      dest_size: Some(vec2(self.size, self.size)),
+      source: None,
+      flip_x: false,
+      flip_y: false,
+      pivot: None,
+      rotation: 0f32
+  });
   }
 }
